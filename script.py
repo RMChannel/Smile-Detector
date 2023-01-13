@@ -10,15 +10,18 @@ sorrisi = cv2.CascadeClassifier('sorrisi.xml')
 def detection(grayscale, img):
     face = facce.detectMultiScale(grayscale, 1.3, 5)
     for (x_face, y_face, w_face, h_face) in face:
-        cv2.rectangle(img, (x_face, y_face), (x_face+w_face, y_face+h_face), (255, 130, 0), 2)
+        faccia=cv2.rectangle(img, (x_face, y_face), (x_face+w_face, y_face+h_face), (255, 0, 0), 2)
+        cv2.putText(faccia, 'Faccia rilevata', (x_face, y_face-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255,0,0), 2)
         ri_grayscale = grayscale[y_face:y_face+h_face, x_face:x_face+w_face]
         ri_color = img[y_face:y_face+h_face, x_face:x_face+w_face] 
-        eye = occhi.detectMultiScale(ri_grayscale, 1.2, 18) 
+        eye = occhi.detectMultiScale(ri_grayscale, 1.2, 15)
         for (x_eye, y_eye, w_eye, h_eye) in eye:
-            cv2.rectangle(ri_color,(x_eye, y_eye),(x_eye+w_eye, y_eye+h_eye), (0, 180, 60), 2) 
-        smile = sorrisi.detectMultiScale(ri_grayscale, 1.7, 42)
+            eyes=cv2.rectangle(ri_color,(x_eye, y_eye),(x_eye+w_eye, y_eye+h_eye), (0, 180, 60), 2)
+            cv2.putText(eyes, 'Occhio', (x_eye, y_eye-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,180,60), 2)
+        smile = sorrisi.detectMultiScale(ri_grayscale, 1.7, 32)
         for (x_smile, y_smile, w_smile, h_smile) in smile: 
-            cv2.rectangle(ri_color,(x_smile, y_smile),(x_smile+w_smile, y_smile+h_smile), (255, 0, 130), 2)
+            sorriso=cv2.rectangle(ri_color,(x_smile, y_smile),(x_smile+w_smile, y_smile+h_smile), (255, 0, 130), 2)
+            cv2.putText(sorriso, 'Sorriso rilevato', (x_smile, y_smile-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,0,130), 2)
     return img 
 
 #Qui si apre il ciclo per l'apertura e la scansione dell'immagine della webcam, che poi viene mostrata a schermo
